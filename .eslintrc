@@ -1,6 +1,7 @@
 {
   "extends": "@antfu",
   "rules": {
-    "import/no-mutable-exports": "off"
+    "import/no-mutable-exports": "off",
+    "no-console": "off"
   }
 }

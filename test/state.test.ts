@@ -15,6 +15,7 @@ describe('state', () => {
 
   it('can directly access state at the store level', () => {
     const store = useStore()
+    console.log(store)
     expect(store.name).toBe('young')
     store.name = 'abc'
     expect(store.name).toBe('abc')

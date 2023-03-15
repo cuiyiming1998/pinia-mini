@@ -36,6 +36,7 @@ export const createPinia = (): Pinia => {
       return this
     },
     state,
+    _e: scope,
     _s: new Map(), // state对象
     _a: localApp!, // 实例
     _p, // 插件
