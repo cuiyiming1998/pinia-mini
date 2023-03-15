@@ -8,7 +8,7 @@ export const createPinia = (): Pinia => {
     ref<Record<string, StateTree>>({}),
   )!
 
-  const pinia = markRaw({ state })
+  const pinia = markRaw({ state, _s: new Map() })
 
   return pinia
 }
