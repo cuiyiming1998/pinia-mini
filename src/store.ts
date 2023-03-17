@@ -37,9 +37,10 @@ function createSetupStore(
     const prop = setupStore[key]
 
     if ((isRef(prop) && !isComputed(prop)) || isReactive(prop)) {
-      if (!isOptionsStore)
+      if (!isOptionsStore) {
         // optionsStore已经把state注入进去了
         pinia.state.value[$id][key] = prop
+      }
     }
   }
 
@@ -78,7 +79,7 @@ function createOptionsStore(id: string, options: any, pinia: Pinia) {
     return assigned
   }
 
-  const store = createSetupStore(id, setup, options, pinia)
+  const store = createSetupStore(id, setup, options, pinia, true)
   return store
 }
 
