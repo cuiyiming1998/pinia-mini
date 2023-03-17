@@ -9,13 +9,12 @@ describe('state', () => {
   const useStore = defineStore('main', {
     state: () => ({
       name: 'young',
-      age: 0,
+      age: 20,
     }),
   })
 
   it('can directly access state at the store level', () => {
     const store = useStore()
-    console.log(store)
     expect(store.name).toBe('young')
     store.name = 'abc'
     expect(store.name).toBe('abc')
