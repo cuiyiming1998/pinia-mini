@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
+import { computed } from 'vue-demi'
 import { createPinia, defineStore, setActivePinia } from '../src'
 
 describe('state', () => {
@@ -18,5 +19,13 @@ describe('state', () => {
     expect(store.name).toBe('young')
     store.name = 'abc'
     expect(store.name).toBe('abc')
+  })
+
+  it('state is reactive', () => {
+    const store = useStore()
+    const upperCased = computed(() => store.name.toUpperCase())
+    expect(upperCased.value).toBe('YOUNG')
+    store.name = 'y'
+    expect(upperCased.value).toBe('Y')
   })
 })
