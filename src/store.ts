@@ -4,6 +4,18 @@ import { activePinia, setActivePinia } from './rootStore'
 import { assign, isComputed } from './shared'
 import type { Pinia } from './types.d'
 
+/**
+ * description
+ * 创建setup类型的store
+ *
+ * @param { id } 唯一id
+ * @param { setup } setup函数
+ * @param { options }
+ * @param { pinia } 实例
+ * @param { isOptionsStore } 是否是options创建的形式
+ * @return z
+ *
+ */
 function createSetupStore(
   id: string,
   setup: any,
@@ -13,6 +25,7 @@ function createSetupStore(
 ) {
   let scope!: EffectScope
   const $id = id
+  // 初始化store
   const partialStore = {
     _p: pinia,
     $id,
@@ -39,15 +52,27 @@ function createSetupStore(
     if ((isRef(prop) && !isComputed(prop)) || isReactive(prop)) {
       if (!isOptionsStore) {
         // optionsStore已经把state注入进去了
+        // setupStore的话需要把setup()执行之后的结果放进当前id对应的store中
         pinia.state.value[$id][key] = prop
       }
     }
   }
 
+  // 最后进行合并
   assign(toRaw(store), setupStore)
   return store
 }
 
+/**
+ * description
+ * 将options类型的store转化成setup函数
+ *
+ * @param { id } 当前store的唯一id
+ * @param { options } 创建的options参数
+ * @param { pinia } 当前活跃的pinia实例
+ * @return z
+ *
+ */
 function createOptionsStore(id: string, options: any, pinia: Pinia) {
   const { state, actions, getters } = options
 
@@ -55,18 +80,21 @@ function createOptionsStore(id: string, options: any, pinia: Pinia) {
 
   // 创建setup
   function setup() {
+    // 初始化
     if (!initialState)
       pinia.state.value[id] = state ? state() : {}
 
+    // 获取state里面的值
     const localState = toRefs(pinia.state.value[id])
 
+    // 拼接state, action, getters
     const assigned = assign(
       localState,
       actions,
       Object.keys(getters || {}).reduce((computedGetters, name) => {
+        // 为每个getter创建响应式数据 -> 也就是computed
         computedGetters[name] = markRaw(
           computed(() => {
-            // 为每个getter创建响应式数据 -> 也就是computed
             setActivePinia(pinia)
             const store = pinia._s.get(id)
             return getters[name].call(store, store)
@@ -104,12 +132,14 @@ export const defineStore = (idOrOptions: any, setup?: any, setupOptions?: any) =
     }
     pinia = activePinia!
 
+    // 如果没有创建过 去创建
     if (!pinia?._s.has(id)) {
+      // setup类型
       if (isSetupStore) {
         createSetupStore(id, setup, options, pinia)
       }
       else {
-        // 如果没有创建过 去创建
+        // options类型 需要转化为setup类型
         createOptionsStore(id, options, pinia)
       }
     }
