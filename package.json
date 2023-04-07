@@ -2,7 +2,7 @@
   "name": "pinia-mini",
   "type": "module",
   "version": "0.0.0",
-  "packageManager": "pnpm@7.12.0",
+  "packageManager": "pnpm@7.31.0",
   "description": "",
   "author": "young",
   "license": "MIT",
@@ -62,17 +62,17 @@
     "@antfu/eslint-config": "^0.35.3",
     "@antfu/ni": "^0.20.0",
     "@antfu/utils": "^0.7.2",
-    "@types/node": "^18.14.1",
-    "bumpp": "^9.0.0",
-    "eslint": "^8.34.0",
+    "@types/node": "^18.15.11",
+    "bumpp": "^9.1.0",
+    "eslint": "^8.37.0",
     "esno": "^0.16.3",
-    "lint-staged": "^13.1.2",
-    "pnpm": "^7.27.1",
-    "rimraf": "^4.1.2",
+    "lint-staged": "^13.2.0",
+    "pnpm": "^7.31.0",
+    "rimraf": "^4.4.1",
     "simple-git-hooks": "^2.8.1",
     "typescript": "^4.9.5",
-    "unbuild": "^1.1.2",
-    "vite": "^4.1.4",
+    "unbuild": "^1.2.0",
+    "vite": "^4.2.1",
     "vitest": "^0.28.5",
     "vue": "3.2.47"
   },
@@ -82,5 +82,4 @@
   "lint-staged": {
     "*": "eslint --fix"
   }
-
 }
