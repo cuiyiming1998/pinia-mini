@@ -69,14 +69,14 @@ describe('setup store with composition api', () => {
     return { name }
   })
 
-  it.skip('can also access state', () => {
+  it('can also access state', () => {
     const store = useStore()
     expect(store.name).toBe('young')
     store.name = 'abc'
     expect(store.name).toBe('abc')
   })
 
-  it.skip('state is reactive', () => {
+  it('state is reactive', () => {
     const store = useStore()
     const upperCased = computed(() => store.name.toUpperCase())
     expect(upperCased.value).toBe('YOUNG')

@@ -1,4 +1,4 @@
-import { computed, effectScope, isReactive, isRef, markRaw, reactive, toRaw, toRefs } from 'vue-demi'
+import { computed, effectScope, isReactive, isRef, markRaw, reactive, toRaw, toRefs, unref } from 'vue-demi'
 import type { ComputedRef, EffectScope } from 'vue-demi'
 import { activePinia, setActivePinia } from './rootStore'
 import { assign, isComputed } from './shared'
@@ -36,6 +36,11 @@ function createSetupStore(
     $dispose: {},
   }
 
+  const initialState = pinia.state.value[$id]
+  // 如果不是optionsStore的话 这里应该初始化一下store
+  if (!isOptionsStore && !initialState)
+    pinia.state.value[$id] = {}
+
   const store = reactive(assign({}, partialStore))
 
   pinia._s.set($id, store)
@@ -53,8 +58,11 @@ function createSetupStore(
       if (!isOptionsStore) {
         // optionsStore已经把state注入进去了
         // setupStore的话需要把setup()执行之后的结果放进当前id对应的store中
-        pinia.state.value[$id][key] = prop
+        pinia.state.value[$id][key] = unref(prop)
       }
+    }
+    else if (typeof prop === 'function') {
+      // TODO: 处理action
     }
   }
 
