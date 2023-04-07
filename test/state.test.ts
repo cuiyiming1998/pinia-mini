@@ -37,7 +37,7 @@ describe('options store', () => {
     })
   })
 
-  it.skip('can reset the store', () => {
+  it('can reset the store', () => {
     const store = useStore()
     store.name = '1'
     store.age = 20
@@ -77,7 +77,6 @@ describe('setup store', () => {
   })
 })
 
-// TODO: 对composition api的支持
 describe('setup store with composition api', () => {
   beforeEach(() => {
     setActivePinia(createPinia())

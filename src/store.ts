@@ -25,13 +25,28 @@ function createSetupStore(
 ) {
   let scope!: EffectScope
   const $id = id
+
+  function $patch(partialStateOrMutator: any) {
+    if (typeof partialStateOrMutator === 'function')
+      partialStateOrMutator(pinia.state.value[$id])
+  }
+
+  function $reset() {
+    if (isOptionsStore) {
+      const { state } = options
+      const newState = state ? state() : {}
+      $patch(($state: any) => {
+        assign($state, newState)
+      })
+    }
+  }
   // 初始化store
   const partialStore = {
     _p: pinia,
     $id,
     $onAction: {},
-    $patch: {},
-    $reset: {},
+    $patch,
+    $reset,
     $subscribe: {},
     $dispose: {},
   }
@@ -72,7 +87,11 @@ function createSetupStore(
   // 生成$state
   Object.defineProperty(store, '$state', {
     get: () => pinia.state.value[$id],
-    // TODO: set的逻辑
+    set: (state) => {
+      $patch(($state: any) => {
+        assign($state, state)
+      })
+    },
   })
   return store
 }
