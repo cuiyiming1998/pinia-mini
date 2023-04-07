@@ -68,6 +68,12 @@ function createSetupStore(
 
   // 最后进行合并
   assign(toRaw(store), setupStore)
+
+  // 生成$state
+  Object.defineProperty(store, '$state', {
+    get: () => pinia.state.value[$id],
+    // TODO: set的逻辑
+  })
   return store
 }
 

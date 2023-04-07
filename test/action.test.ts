@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createPinia, defineStore, setActivePinia } from '../src'
 import { ref, unref } from 'vue-demi'
+import { createPinia, defineStore, setActivePinia } from '../src'
 
 describe('actions', () => {
   beforeEach(() => {
@@ -49,4 +49,3 @@ describe('actions with setup options', () => {
     expect(store.foo).toBe(false)
   })
 })
-

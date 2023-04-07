@@ -28,6 +28,25 @@ describe('options store', () => {
     store.name = 'y'
     expect(upperCased.value).toBe('Y')
   })
+
+  it('can access $state', () => {
+    const store = useStore()
+    expect(store.$state).toEqual({
+      name: 'young',
+      age: 20,
+    })
+  })
+
+  it.skip('can reset the store', () => {
+    const store = useStore()
+    store.name = '1'
+    store.age = 20
+    store.$reset()
+    expect(store.$state).toEqual({
+      name: 'young',
+      age: 20,
+    })
+  })
 })
 
 describe('setup store', () => {
